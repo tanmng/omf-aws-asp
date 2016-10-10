@@ -14,7 +14,7 @@ function asp -d 'Switches AWS profile' -a 'aws_profile'
 
       if test -z "$access_key" -o -z "$secret_key"
         set -l role_arn (awk "/\[profile $aws_profile\]/,/^\$/ { if (\$1 == \"role_arn\") { print \$3 }}" ~/.aws/config)
-        set -l source_profile (awk "/\[$aws_profile\]/,/^\$/ { if (\$1 == \"source_profile\") { print \$3 }}" ~/.aws/config)
+        set -l source_profile (awk "/\[profile $aws_profile\]/,/^\$/ { if (\$1 == \"source_profile\") { print \$3 }}" ~/.aws/config)
 
         if test -n "$role_arn" -a -n "$source_profile"
           set -l json (aws sts assume-role --profile "$source_profile" --role-arn "$role_arn" --role-session-name "$aws_profile" --output json)
