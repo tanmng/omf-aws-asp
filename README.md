@@ -52,12 +52,27 @@ Setting AWS_DEFAULT_PROFILE to test
 
 ### `ase`
 
-Sets `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY` environment variables to the corresponding values from `~/.aws/credentials`. If keys are not listed in the profile, attempts to assume the profile's `role_arn` and uses the returned keys. Also sets `$AWS_DEFAULT_REGION` from `~/.aws/config`, and `$AWS_DEFAULT_PROFILE`.
+* Sets `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY` environment variables to the corresponding values from `~/.aws/credentials`;
+* Sets `AWS_DEFAULT_PROFILE` environment variables to the corresponding values from `~/.aws/config`.
 
+Parameter:
+
+* `profile_name` The name of the profile (set in `~/.aws/config`)
+
+Sample
 ```fish
-$ asp
+$ ase aws-hs-searchnp
+
+Setting AWS_DEFAULT_REGION to WAIT A SECOND, WHY SHOULD I PRINT THIS OUT AGAIN?
+Setting AWS_ACCESS_KEY_ID to WAIT A SECOND, WHY SHOULD I PRINT THIS OUT AGAIN?
+Setting AWS_SECRET_ACCESS_KEY to WAIT A SECOND, WHY SHOULD I PRINT THIS OUT AGAIN?
 ```
-If it is set, echoes `$AWS_DEFAULT_PROFILE` and renews its credentials.
+
+### `asc`
+
+> This command doesn't take any parameter
+
+Remove all AWS-related environment variables (filtered by the RegExp `AWS_[^=]+`
 
 ## Todo
 
