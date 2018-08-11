@@ -9,5 +9,10 @@ function asp -d 'Switches AWS profile' -a 'aws_profile'
         else
             echo "Could NOT find profile $aws_profile in config file ($CONFIG_FILE). No profile set"
         end
+    else
+        if test -n "$AWS_PROFILE"
+            echo "Current profile: $AWS_PROFILE"
+        else
+            echo "No profile set."
     end
 end
