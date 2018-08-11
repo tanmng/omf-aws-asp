@@ -29,11 +29,13 @@ end
 
 function ase -d 'Set up AWS key environment variable to override the profile variable' -a aws_profile
     set -x CONFIG_FILE ~/.aws/config
+    set -x CREDENTIAL_FILE ~/.aws/credentials
 
     if test -n "$aws_profile"
         if grep -Eo "\[(profile)? *$aws_profile\]" $CONFIG_FILE > /dev/null
             # Set the env from config file
             __ase_set_env_from_section  "\[(profile )?$aws_profile\]" $CONFIG_FILE
+            __ase_set_env_from_section  "\[$aws_profile ?\]" $CREDENTIAL_FILE
         else
             echo "Could NOT find profile $aws_profile in config file ($CONFIG_FILE). No profile set"
         end

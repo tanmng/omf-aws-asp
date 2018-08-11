@@ -1,5 +1,6 @@
 function asp -d 'Switches AWS profile' -a 'aws_profile'
     set -x CONFIG_FILE ~/.aws/config
+    set -x CREDENTIAL_FILE ~/.aws/credentials
 
     if test -n "$aws_profile"
         if fgrep -q "[profile $aws_profile]" $CONFIG_FILE
