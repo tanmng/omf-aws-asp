@@ -44,9 +44,11 @@ function __ase_set_env_from_section -d 'Parse the section section_name from file
             set -x env_name 'AWS_DEFAULT_REGION'
         end
 
-        echo "Setting $env_name to WAIT A SECOND, WHY SHOULD I PRINT THIS OUT AGAIN?"
-
-        set -xg $env_name $env_val
+        ##  Added check to make sure env_name isnt empty
+        if test $env_name != ''
+            echo "Setting $env_name to WAIT A SECOND, WHY SHOULD I PRINT THIS OUT AGAIN?"
+            set -xg $env_name $env_val
+        end
     end
 end
 
