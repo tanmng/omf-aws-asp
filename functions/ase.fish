@@ -6,24 +6,33 @@ function __ase_set_env_from_section -d 'Parse the section section_name from file
 
     for line in $lines[2..-1]
         # The grep will return 0 when match
-        if echo $line | grep -E '^ *\[.*\] *$' > /dev/null
+        string match -r '^ *\[.*\] *$' $line > /dev/null
+        if test $status -eq 0
             # Beginning of new section
             break
         end
 
         # Parse the line and set envrionment variables
         # echo $line
-        set -x env_name (echo $line | grep -Eo '^ *[^=]+ *' | xargs | tr /a-z/ /A-Z/)
-        set -x env_val (echo $line | grep -Eo ' *[^=]+ *$' | xargs)
+        set -x env_name (string match -r '^ *[^=]+ *' $line | xargs | tr /a-z/ /A-Z/)
+        set -x env_val (string match -r ' *[^=]+ *$' $line 2> /dev/null | xargs)
 
-        if [ $env_name = "REGION" ]
-            # Special case for the region in the ~/.aws/config file
-            set -x env_name 'AWS_DEFAULT_REGION'
+
+        if [ "$env_name" != "" ]
+            if [ $env_name = "REGION" ]
+                # Special case for the region in the ~/.aws/config file
+                set -x env_name 'AWS_DEFAULT_REGION'
+            end
+
+            # Print this something beautiful
+            echo -n "Setting "
+            set_color blue; echo -n $env_name; set_color normal
+            echo -n " to "
+            set_color red; echo -n "WAIT A SECOND, WHY SHOULD I PRINT THIS OUT AGAIN?"; set_color normal
+            echo
+
+            set -xg $env_name $env_val
         end
-
-        echo "Setting $env_name to WAIT A SECOND, WHY SHOULD I PRINT THIS OUT AGAIN?"
-
-        set -xg $env_name $env_val
     end
 end
 
